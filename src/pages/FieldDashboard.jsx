@@ -1,23 +1,82 @@
+import {
+  useEffect,
+  useState,
+} from "react";
+
 import MainLayout from "../layouts/MainLayout";
 
-export default function FieldDashboard() {
+import {
+  getStaffDashboard,
+} from "../services/staffDashboardService";
+
+import StaffDashboardCards from "../components/StaffDashboardCards";
+
+import StaffSchoolTable from "../components/StaffSchoolTable";
+
+export default function StaffDashboard() {
+
+  const [data, setData] =
+    useState(null);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  useEffect(() => {
+
+    const loadData = async () => {
+
+      try {
+
+        const result =
+          await getStaffDashboard();
+
+        setData(result);
+
+      } catch (error) {
+
+        console.error(error);
+
+      } finally {
+
+        setLoading(false);
+
+      }
+    };
+
+    loadData();
+
+  }, []);
+
+  if (loading) {
+    return (
+      <MainLayout>
+        <p>Loading...</p>
+      </MainLayout>
+    );
+  }
+
   return (
     <MainLayout>
 
-      <h1 className="text-3xl font-bold mb-6">
-        Field Staff Dashboard
-      </h1>
+      <div className="mb-6">
 
-      <div className="bg-white p-5 rounded shadow">
-        <h2 className="text-xl font-semibold">
-          Welcome Field Staff
-        </h2>
+        <h1 className="text-3xl font-bold">
+          Staff Dashboard
+        </h1>
 
-        <p className="mt-2">
-          Use the Delivery Entry page to submit
-          daily school delivery information.
+        <p className="text-gray-500">
+          {data.staff_name}
         </p>
+
       </div>
+
+      <StaffDashboardCards
+        data={data}
+      />
+
+      <StaffSchoolTable
+        schools={data.schools}
+      />
 
     </MainLayout>
   );
