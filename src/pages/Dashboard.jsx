@@ -1,5 +1,6 @@
 import AdminDashboard from "./AdminDashboard";
 import FieldDashboard from "./FieldDashboard";
+import StaffDashboard from "./StaffDashboard";
 
 export default function Dashboard() {
 
@@ -10,5 +11,5 @@ export default function Dashboard() {
     return <AdminDashboard />;
   }
 
-  return <FieldDashboard />;
+  return <StaffDashboard />;
 }
