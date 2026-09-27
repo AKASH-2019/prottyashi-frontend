@@ -129,9 +129,9 @@ export default function AdminDashboard() {
                 School
               </th>
 
-              <th className="border p-2">
+              {/* <th className="border p-2">
                 Item
-              </th>
+              </th> */}
 
               <th className="border p-2">
                 Shortfall
