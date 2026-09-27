@@ -71,8 +71,8 @@ export default function RationForm({
     >
       <h2 className="text-xl font-semibold mb-4">
         {editMode
-          ? "Update Today's Ration"
-          : "Create Today's Ration"}
+          ? "Update Today's Demand"
+          : "Create Today's Demand"}
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -164,8 +164,8 @@ export default function RationForm({
         className="mt-5 bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700"
       >
         {editMode
-          ? "Update Ration"
-          : "Create Ration"}
+          ? "Update Demand"
+          : "Create Demand"}
       </button>
     </form>
   );

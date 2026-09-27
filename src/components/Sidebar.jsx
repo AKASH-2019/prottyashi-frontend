@@ -66,6 +66,9 @@ export default function Sidebar({ isOpen, onClose }) {
             <Link to="/deliveries" className={navButtonClass} onClick={onClose}>
                 Deliveries
             </Link>
+            <Link to="/reports" className={navButtonClass} onClick={onClose}>
+                Reports
+            </Link>
         </>
         )}
 

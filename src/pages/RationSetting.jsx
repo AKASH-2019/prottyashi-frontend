@@ -97,7 +97,7 @@ export default function RationSetting() {
 
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">
-            Ration Settings
+            Demand Settings
           </h1>
 
           {todayRation ? (
