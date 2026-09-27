@@ -22,6 +22,8 @@ export default function Form7SchoolPage({ rows, month, year }) {
       return total + (typeof v === "number" ? v : 0);
     }, 0);
 
+  const hasData = rows && rows.length > 0;
+
   return (
     <div className="bg-white p-8 print:p-0">
       <div className="flex justify-end">
@@ -43,113 +45,145 @@ export default function Form7SchoolPage({ rows, month, year }) {
 
       <hr className="border-t-4 border-black my-5" />
 
-      <p className="font-semibold mb-4">সরবরাহকারী ঠিকাদারের নাম: {safe(month?.supplierName)}</p>
+      <p className="font-semibold mb-4">
+  সরবরাহকারী ঠিকাদারের নাম: {safe(month?.supplierName)}
+</p>
 
-      <table className="w-full border-collapse text-xs">
-        <thead>
-          <tr className="bg-gray-100">
-            <th rowSpan={2} className="border border-black p-2 w-14">ক্রমিক নং</th>
-            <th rowSpan={2} className="border border-black p-2 min-w-[180px]">বিদ্যালয়ের নাম</th>
-            <th rowSpan={2} className="border border-black p-2 w-28">ইএমআইএস কোড</th>
-            {ITEM_COLUMNS.map((col) => (
-              <th key={col.key} colSpan={2} className="border border-black p-2">
-                {col.label}
-              </th>
-            ))}
-          </tr>
-          <tr className="bg-gray-100">
-            {ITEM_COLUMNS.map((col) => (
-              <Fragment key={col.key + "-sub"}>
-                <th className="border border-black p-2">মোট চালানের সংখ্যা</th>
-                <th className="border border-black p-2">মোট পরিমাণ ({col.unit})</th>
-              </Fragment>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
+{!hasData ? (
 
-        {(!rows || rows.length === 0) ? (
+  <div className="border border-red-500 rounded p-8 text-center">
+    <h2 className="text-xl font-bold text-red-600">
+      এই মাসের কোনো তথ্য পাওয়া যায়নি
+    </h2>
+  </div>
 
-            <tr>
-            <td
-                colSpan={9}
-                className="
-                border
-                border-black
-                py-8
-                text-center
-                font-bold
-                text-red-600
-                "
-            >
-                এই মাসের কোনো তথ্য পাওয়া যায়নি
+) : (
+
+  <table className="w-full border-collapse text-xs">
+
+    <thead>
+      <tr className="bg-gray-100">
+        <th rowSpan={2} className="border border-black p-2 w-14">
+          ক্রমিক নং
+        </th>
+
+        <th rowSpan={2} className="border border-black p-2 min-w-[180px]">
+          বিদ্যালয়ের নাম
+        </th>
+
+        <th rowSpan={2} className="border border-black p-2 w-28">
+          ইএমআইএস কোড
+        </th>
+
+        {ITEM_COLUMNS.map((col) => (
+          <th
+            key={col.key}
+            colSpan={2}
+            className="border border-black p-2"
+          >
+            {col.label}
+          </th>
+        ))}
+      </tr>
+
+      <tr className="bg-gray-100">
+        {ITEM_COLUMNS.map((col) => (
+          <Fragment key={col.key + "-sub"}>
+            <th className="border border-black p-2">
+              মোট চালানের সংখ্যা
+            </th>
+
+            <th className="border border-black p-2">
+              মোট পরিমাণ ({col.unit})
+            </th>
+          </Fragment>
+        ))}
+      </tr>
+    </thead>
+
+    <tbody>
+
+      {rows.map((row) => (
+
+        <tr
+          key={row.sl}
+          className="break-inside-avoid"
+        >
+
+          <td className="border border-black p-1 text-center">
+            {safe(row.sl)}
+          </td>
+
+          <td className="border border-black p-1 text-left pl-2 whitespace-nowrap">
+            {safe(row.school_name)}
+          </td>
+
+          <td className="border border-black p-1 text-center">
+            {safe(row.emis_code)}
+          </td>
+
+          {ITEM_COLUMNS.map((col) => (
+
+            <Fragment key={col.key}>
+
+              <td className="border border-black p-1 text-center">
+                {bnNumber(
+                  row[`${col.key}_chalan_count`]
+                )}
+              </td>
+
+              <td className="border border-black p-1 text-center">
+                {bnNumber(
+                  row[`${col.key}_total`]
+                )}
+              </td>
+
+            </Fragment>
+
+          ))}
+
+        </tr>
+
+      ))}
+
+    </tbody>
+
+    <tfoot>
+      <tr className="bg-gray-100 font-bold">
+
+        <td
+          colSpan={3}
+          className="border border-black p-2"
+        >
+          মোট
+        </td>
+
+        {ITEM_COLUMNS.map((col) => (
+
+          <Fragment key={col.key + "-tot"}>
+
+            <td className="border border-black p-2 text-center">
+              {bnNumber(
+                sumField(`${col.key}_chalan_count`)
+              )}
             </td>
-            </tr>
 
-        ) : (
+            <td className="border border-black p-2 text-center">
+              {bnNumber(
+                sumField(`${col.key}_total`)
+              )}
+            </td>
 
-            rows.map((row) => (
+          </Fragment>
 
-            <tr
-                key={row.sl}
-                className="break-inside-avoid"
-            >
+        ))}
 
-                <td className="border border-black p-1 text-center">
-                {safe(row.sl)}
-                </td>
+      </tr>
+    </tfoot>
 
-                <td className="border border-black p-1 text-left pl-2 whitespace-nowrap">
-                {safe(row.school_name)}
-                </td>
+  </table>
 
-                <td className="border border-black p-1 text-center">
-                {safe(row.emis_code)}
-                </td>
-
-                {ITEM_COLUMNS.map((col) => (
-
-                <Fragment key={col.key}>
-
-                    <td className="border border-black p-1 text-center">
-                    {bnNumber(
-                        row[`${col.key}_chalan_count`]
-                    )}
-                    </td>
-
-                    <td className="border border-black p-1 text-center">
-                    {bnNumber(
-                        row[`${col.key}_total`]
-                    )}
-                    </td>
-
-                </Fragment>
-
-                ))}
-
-            </tr>
-
-            ))
-
-        )}
-
-        </tbody>
-        <tfoot>
-          <tr className="bg-gray-100 font-bold">
-            <td colSpan={3} className="border border-black p-2">মোট</td>
-            {ITEM_COLUMNS.map((col) => (
-              <Fragment key={col.key + "-tot"}>
-                <td className="border border-black p-2 text-center">
-                  {bnNumber(sumField(`${col.key}_chalan_count`))}
-                </td>
-                <td className="border border-black p-2 text-center">
-                  {bnNumber(sumField(`${col.key}_total`))}
-                </td>
-              </Fragment>
-            ))}
-          </tr>
-        </tfoot>
-      </table>
+)}
     </div>
   );
 }
