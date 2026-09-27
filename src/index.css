@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+
+/* @media print {
+
+  .page-break {
+    page-break-after: always;
+  }
+
+} */
+@media print {
+  body {
+    background: white;
+  }
+  
+  /* Hide UI elements like the download button during printing */
+  button {
+    display: none !important;
+  }
+}
