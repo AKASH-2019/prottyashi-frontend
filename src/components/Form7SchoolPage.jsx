@@ -67,25 +67,72 @@ export default function Form7SchoolPage({ rows, month, year }) {
           </tr>
         </thead>
         <tbody>
-          {(rows ?? []).map((row) => (
-            <tr key={row.sl} className="break-inside-avoid">
-              <td className="border border-black p-1 text-center">{safe(row.sl)}</td>
-              <td className="border border-black p-1 text-left pl-2 whitespace-nowrap">
-                {safe(row.school_name)}
-              </td>
-              <td className="border border-black p-1 text-center">{safe(row.emis_code)}</td>
-              {ITEM_COLUMNS.map((col) => (
-                <Fragment key={col.key}>
-                  <td className="border border-black p-1 text-center">
-                    {bnNumber(row[`${col.key}_chalan_count`])}
-                  </td>
-                  <td className="border border-black p-1 text-center">
-                    {bnNumber(row[`${col.key}_total`])}
-                  </td>
-                </Fragment>
-              ))}
+
+        {(!rows || rows.length === 0) ? (
+
+            <tr>
+            <td
+                colSpan={9}
+                className="
+                border
+                border-black
+                py-8
+                text-center
+                font-bold
+                text-red-600
+                "
+            >
+                এই মাসের কোনো তথ্য পাওয়া যায়নি
+            </td>
             </tr>
-          ))}
+
+        ) : (
+
+            rows.map((row) => (
+
+            <tr
+                key={row.sl}
+                className="break-inside-avoid"
+            >
+
+                <td className="border border-black p-1 text-center">
+                {safe(row.sl)}
+                </td>
+
+                <td className="border border-black p-1 text-left pl-2 whitespace-nowrap">
+                {safe(row.school_name)}
+                </td>
+
+                <td className="border border-black p-1 text-center">
+                {safe(row.emis_code)}
+                </td>
+
+                {ITEM_COLUMNS.map((col) => (
+
+                <Fragment key={col.key}>
+
+                    <td className="border border-black p-1 text-center">
+                    {bnNumber(
+                        row[`${col.key}_chalan_count`]
+                    )}
+                    </td>
+
+                    <td className="border border-black p-1 text-center">
+                    {bnNumber(
+                        row[`${col.key}_total`]
+                    )}
+                    </td>
+
+                </Fragment>
+
+                ))}
+
+            </tr>
+
+            ))
+
+        )}
+
         </tbody>
         <tfoot>
           <tr className="bg-gray-100 font-bold">

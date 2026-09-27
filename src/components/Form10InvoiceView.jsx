@@ -87,18 +87,69 @@ export default function Form10InvoiceView({ items, summary, month, year, invoice
           </tr>
         </thead>
         <tbody>
-          {(items ?? []).map((item, i) => (
-            <tr key={i} className="break-inside-avoid">
-              <td className="border border-black p-2 text-left pl-3">{safe(item.food_name)}</td>
-              <td className="border border-black p-2 text-center">{bnNumber(item.quantity, 0)}</td>
-              <td className="border border-black p-2 text-center">{bnNumber(item.unit_price)}</td>
-              <td className="border border-black p-2 text-center">{bnNumber(item.food_total)}</td>
-              <td className="border border-black p-2 text-center">{bnNumber(item.service_unit_price)}</td>
-              <td className="border border-black p-2 text-center">{bnNumber(item.service_total)}</td>
-              <td className="border border-black p-2 text-center">{bnNumber(item.grand_total)}</td>
+
+        {(!items || items.length === 0) ? (
+
+          <tr>
+            <td
+              colSpan={7}
+              className="
+                border
+                border-black
+                py-8
+                text-center
+                font-bold
+                text-red-600
+              "
+            >
+              এই মাসের কোনো তথ্য পাওয়া যায়নি
+            </td>
+          </tr>
+
+        ) : (
+
+          items.map((item, i) => (
+
+            <tr
+              key={i}
+              className="break-inside-avoid"
+            >
+
+              <td className="border border-black p-2 text-left pl-3">
+                {safe(item.food_name)}
+              </td>
+
+              <td className="border border-black p-2 text-center">
+                {bnNumber(item.quantity, 0)}
+              </td>
+
+              <td className="border border-black p-2 text-center">
+                {bnNumber(item.unit_price)}
+              </td>
+
+              <td className="border border-black p-2 text-center">
+                {bnNumber(item.food_total)}
+              </td>
+
+              <td className="border border-black p-2 text-center">
+                {bnNumber(item.service_unit_price)}
+              </td>
+
+              <td className="border border-black p-2 text-center">
+                {bnNumber(item.service_total)}
+              </td>
+
+              <td className="border border-black p-2 text-center">
+                {bnNumber(item.grand_total)}
+              </td>
+
             </tr>
-          ))}
-        </tbody>
+
+          ))
+
+        )}
+
+      </tbody>
         <tfoot>
           <tr className="bg-gray-100 font-bold">
             <td colSpan={6} className="border border-black p-2">সর্বমোট টাকার পরিমাণ</td>
