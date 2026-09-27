@@ -1,5 +1,6 @@
 import {
     useEffect,
+    useRef,
     useState,
 } from "react";
 
@@ -33,6 +34,8 @@ export default function Deliveries() {
         useState(null);
     
     const [selectedDelivery, setSelectedDelivery] = useState(null);
+
+    const formRef = useRef(null);
     
     const [formData, setFormData] =
         useState({
@@ -296,6 +299,11 @@ export default function Deliveries() {
             banana_chalan_no: delivery.banana_chalan_no,
         });
 
+        formRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+        });
+
     };
 
     const handleDelete =
@@ -324,6 +332,7 @@ export default function Deliveries() {
                     Delivery Entry
                 </h1>
 
+                <div ref={formRef}>
                 <DeliveryForm
                     schools={schools}
                     formData={formData}
@@ -333,9 +342,11 @@ export default function Deliveries() {
                     editingId={editingId}
                     selectedDelivery={selectedDelivery}
                 />
+                </div>
 
                 <DeliveryList
                     deliveries={deliveries}
+                    schools={schools}
                     handleEdit={handleEdit}
                     handleDelete={handleDelete}
                 />
@@ -345,7 +356,6 @@ export default function Deliveries() {
         </MainLayout>
     );
 }
-
 
 
 // import {
@@ -365,6 +375,9 @@ export default function Deliveries() {
 // import {
 //     getSchools,
 // } from "../services/schoolService";
+
+// import DeliveryForm from "../components/DeliveryForm";
+// import DeliveryList from "../components/DeliveryList";
 
 // export default function Deliveries() {
 
@@ -667,454 +680,31 @@ export default function Deliveries() {
 
 //             <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-50 -m-6 p-6">
 
-//             <h1 className="text-3xl font-bold mb-6 text-sky-800">
-//                 Delivery Entry
-//             </h1>
+//                 <h1 className="text-3xl font-bold mb-6 text-sky-800">
+//                     Delivery Entry
+//                 </h1>
 
-//             <div className="bg-white p-6 rounded-2xl shadow-lg border border-sky-100 mb-8">
-//                 <form
-//                     onSubmit={
-//                         handleSubmit
-//                     }
-//                     className="grid grid-cols-2 gap-4"
-//                 >
+//                 <DeliveryForm
+//                     schools={schools}
+//                     formData={formData}
+//                     setFormData={setFormData}
+//                     handleChange={handleChange}
+//                     handleSubmit={handleSubmit}
+//                     editingId={editingId}
+//                     selectedDelivery={selectedDelivery}
+//                 />
 
-//                     <select
-//                         name="school"
-//                         value={
-//                             formData.school
-//                         }
-//                         onChange={
-//                             handleChange
-//                         }
-//                         className="border border-sky-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition"
-//                         required
-//                     >
-
-//                         <option value="">
-//                             Select School
-//                         </option>
-
-//                         {schools.map(
-//                             (school) => (
-//                                 <option
-//                                     key={
-//                                         school.id
-//                                     }
-//                                     value={
-//                                         school.id
-//                                     }
-//                                 >
-//                                     {
-//                                         school.name_bn
-//                                     }
-//                                 </option>
-//                             )
-//                         )}
-
-//                     </select>
-
-//                     <input
-//                         type="date"
-//                         name="date"
-//                         value={
-//                             formData.date
-//                         }
-//                         onChange={
-//                             handleChange
-//                         }
-//                         max={
-//                                 new Date()
-//                                 .toISOString()
-//                                 .split("T")[0]
-//                             }
-//                         className="border border-sky-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition"
-//                         required
-//                     />
-
-//                     <input
-//                         type="number"
-//                         // min="0"
-//                         name="bun_delivered"
-//                         placeholder="Bun"
-//                         value={
-//                             formData.bun_delivered
-//                         }
-//                         onChange={
-//                             handleChange
-//                         }
-                        
-//                         className="border border-sky-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition"
-//                         required
-//                     />
-//                     {Number(formData.bun_delivered) > 0 && (
-//                     <>
-//                         <input
-//                             type="text"
-//                             name="bun_chalan_no"
-//                             value={formData.bun_chalan_no}
-//                             onChange={handleChange}
-//                             placeholder="Bun Chalan No"
-//                             className="border border-sky-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition"
-//                             required
-//                         />
-
-//                         <input
-//                             type="date"
-//                             name="bun_chalan_date"
-//                             onChange={handleChange}
-//                             value={formData.bun_chalan_date}
-//                             max={
-//                                 new Date()
-//                                 .toISOString()
-//                                 .split("T")[0]
-//                             }
-//                             className="border border-sky-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition"
-//                             required
-//                         />
-
-//                         {/* <input
-//                             type="file"
-//                             accept="image/*"
-//                             onChange={(e) =>
-//                                 setFormData({
-//                                     ...formData,
-//                                     bun_chalan_image: e.target.files[0],
-//                                 })
-//                             }
-//                             required={Number(formData.bun_delivered) > 0}
-//                         /> */}
-//                         {editingId && selectedDelivery?.bun_chalan_image && (
-//                             <div className="col-span-2">
-//                                 <a
-//                                 href={selectedDelivery.bun_chalan_image}
-//                                 target="_blank"
-//                                 rel="noreferrer"
-//                                 className="text-sky-600 hover:text-sky-700 hover:underline text-sm"
-//                                 >
-//                                 View Current Bun Chalan
-//                                 </a>
-
-//                                 <img
-//                                 src={selectedDelivery.bun_chalan_image}
-//                                 alt="Bun Chalan"
-//                                 className="w-32 mt-2 rounded-lg border border-sky-100"
-//                                 />
-//                             </div>
-//                             )}
-
-//                             <input
-//                             type="file"
-//                             accept="image/*"
-//                             onChange={(e) =>
-//                                 setFormData({
-//                                 ...formData,
-//                                 bun_chalan_image: e.target.files[0],
-//                                 })
-//                             }
-//                             className="text-sm text-gray-600 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-sky-100 file:text-sky-700 hover:file:bg-sky-200"
-//                             />
-//                     </>
-
-//                     )}
-//                     <input
-//                         type="number"
-//                         // min="0"
-//                         name="egg_delivered"
-//                         placeholder="Egg"
-//                         value={
-//                             formData.egg_delivered
-//                         }
-//                         onChange={
-//                             handleChange
-//                         }
-                        
-//                         className="border border-sky-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition"
-//                         required
-//                     />
-//                     {Number(formData.egg_delivered) > 0 && (
-//                     <>
-//                         <input
-//                             type="text"
-//                             name="egg_chalan_no"
-//                             value={formData.egg_chalan_no}
-//                             onChange={handleChange}
-//                             placeholder="Egg Chalan No"
-//                             className="border border-sky-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition"
-//                             required
-//                         />
-
-//                         <input
-//                             type="date"
-//                             name="egg_chalan_date"
-//                             value={formData.egg_chalan_date}
-//                             onChange={handleChange}
-//                             max={
-//                                 new Date()
-//                                 .toISOString()
-//                                 .split("T")[0]
-//                             }
-//                             className="border border-sky-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition"
-//                             required
-//                         />
-
-//                         {editingId && selectedDelivery?.egg_chalan_image && (
-//                             <div className="col-span-2">
-//                                 <a
-//                                 href={selectedDelivery.egg_chalan_image}
-//                                 target="_blank"
-//                                 rel="noreferrer"
-//                                 className="text-sky-600 hover:text-sky-700 hover:underline text-sm"
-//                                 >
-//                                 View Current Egg Chalan
-//                                 </a>
-
-//                                 <img
-//                                 src={selectedDelivery.egg_chalan_image}
-//                                 alt="Egg Chalan"
-//                                 className="w-32 mt-2 rounded-lg border border-sky-100"
-//                                 />
-//                             </div>
-//                             )}
-
-//                             <input
-//                             type="file"
-//                             accept="image/*"
-//                             onChange={(e) =>
-//                                 setFormData({
-//                                 ...formData,
-//                                 egg_chalan_image: e.target.files[0],
-//                                 })
-//                             }
-//                             className="text-sm text-gray-600 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-sky-100 file:text-sky-700 hover:file:bg-sky-200"
-//                             />
-
-//                     </>
-
-//                     )}
-//                     <input
-//                         type="number"
-//                         name="banana_delivered"
-//                         // min="0"
-//                         placeholder="Banana"
-//                         value={
-//                             formData.banana_delivered
-//                         }
-//                         onChange={
-//                             handleChange
-//                         }
-                        
-//                         className="border border-sky-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition"
-//                         required
-//                     />
-//                     {Number(formData.banana_delivered) > 0 && (
-//                     <>
-//                         <input
-//                             type="text"
-//                             name="banana_chalan_no"
-//                             value={formData.banana_chalan_no}
-//                             onChange={handleChange}
-//                             placeholder="Banana Chalan No"
-//                             className="border border-sky-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition"
-//                             required
-//                         />
-
-//                         <input
-//                             type="date"
-//                             name="banana_chalan_date"
-//                             value={formData.banana_chalan_date}
-//                             onChange={handleChange}
-//                             max={
-//                                 new Date()
-//                                 .toISOString()
-//                                 .split("T")[0]
-//                             }
-//                             className="border border-sky-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition"
-//                             required
-//                         />
-
-//                         {editingId && selectedDelivery?.banana_chalan_image && (
-//                             <div className="col-span-2">
-//                                 <a
-//                                 href={selectedDelivery.banana_chalan_image}
-//                                 target="_blank"
-//                                 rel="noreferrer"
-//                                 className="text-sky-600 hover:text-sky-700 hover:underline text-sm"
-//                                 >
-//                                 View Current Banana Chalan
-//                                 </a>
-
-//                                 <img
-//                                 src={selectedDelivery.banana_chalan_image}
-//                                 alt="Banana Chalan"
-//                                 className="w-32 mt-2 rounded-lg border border-sky-100"
-//                                 />
-//                             </div>
-//                             )}
-
-//                             <input
-//                             type="file"
-//                             accept="image/*"
-//                             onChange={(e) =>
-//                                 setFormData({
-//                                 ...formData,
-//                                 banana_chalan_image: e.target.files[0],
-//                                 })
-//                             }
-//                             className="text-sm text-gray-600 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-sky-100 file:text-sky-700 hover:file:bg-sky-200"
-//                             />
-//                     </>
-
-//                     )}
-//                     <button
-//                         className="col-span-2 bg-sky-500 hover:bg-sky-600 text-white font-medium py-2 rounded-lg transition"
-//                     >
-                        
-//                         {editingId
-//                             ? "Update Delivery"
-//                             : "Save Delivery"}
-//                     </button>
-
-//                 </form>
-
-//             </div>
-
-//             <div className="bg-white rounded-2xl shadow-lg border border-sky-100 overflow-x-auto">
-
-//                 <table className="w-full">
-
-//                     <thead>
-
-//                         <tr className="bg-sky-50">
-
-//                             <th className="border border-sky-100 p-2 text-sky-800">
-//                                 Date
-//                             </th>
-
-//                             <th className="border border-sky-100 p-2 text-sky-800">
-//                                 School
-//                             </th>
-
-//                             <th className="border border-sky-100 p-2 text-sky-800">
-//                                 Bun
-//                             </th>
-
-//                             <th className="border border-sky-100 p-2 text-sky-800">
-//                                 Egg
-//                             </th>
-
-//                             <th className="border border-sky-100 p-2 text-sky-800">
-//                                 Banana
-//                             </th>
-
-//                             <th className="border border-sky-100 p-2 text-sky-800">
-//                                 Chalan
-//                             </th>
-
-//                             <th className="border border-sky-100 p-2 text-sky-800">
-//                                 Action
-//                             </th>
-
-//                         </tr>
-
-//                     </thead>
-
-//                     <tbody>
-
-//                         {deliveries.map(
-//                             (
-//                                 delivery
-//                             ) => (
-
-//                                 <tr
-//                                     key={
-//                                         delivery.id
-//                                     }
-//                                     className="hover:bg-sky-50/50"
-//                                 >
-
-//                                     <td className="border border-sky-100 p-2">
-//                                         {
-//                                             delivery.date
-//                                         }
-//                                     </td>
-
-//                                     <td className="border border-sky-100 p-2">
-//                                         {
-//                                             delivery.school_name
-//                                         }
-//                                     </td>
-
-//                                     <td className="border border-sky-100 p-2">
-//                                         {
-//                                             delivery.bun_delivered
-//                                         }
-//                                     </td>
-
-//                                     <td className="border border-sky-100 p-2">
-//                                         {
-//                                             delivery.egg_delivered
-//                                         }
-//                                     </td>
-
-//                                     <td className="border border-sky-100 p-2">
-//                                         {
-//                                             delivery.banana_delivered
-//                                         }
-//                                     </td>
-
-//                                     <td className="border border-sky-100 p-2">
-//                                         {delivery.chalan_photo && (
-//                                             <a
-//                                                 href={delivery.chalan_photo} // CLEAN: Pass the absolute string directly without template literals
-//                                                 target="_blank"
-//                                                 rel="noreferrer"
-//                                                 className="text-sky-600 hover:underline font-medium"
-//                                             >
-//                                                 View
-//                                             </a>
-//                                         )}
-//                                     </td>
-
-//                                     <td className="border border-sky-100 p-2 space-x-2">
-
-//                                         <button
-//                                             onClick={() =>
-//                                                 handleEdit(
-//                                                     delivery
-//                                                 )
-//                                             }
-//                                             className="bg-sky-500 hover:bg-sky-600 text-white px-3 py-1 rounded-lg transition"
-//                                         >
-//                                             Edit
-//                                         </button>
-
-//                                         <button
-//                                             onClick={() =>
-//                                                 handleDelete(
-//                                                     delivery.id
-//                                                 )
-//                                             }
-//                                             className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg transition"
-//                                         >
-//                                             Delete
-//                                         </button>
-
-//                                     </td>
-
-//                                 </tr>
-
-//                             )
-//                         )}
-
-//                     </tbody>
-
-//                 </table>
-
-//             </div>
+//                 <DeliveryList
+//                     deliveries={deliveries}
+//                     handleEdit={handleEdit}
+//                     handleDelete={handleDelete}
+//                 />
 
 //             </div>
 
 //         </MainLayout>
 //     );
 // }
+
+
+
