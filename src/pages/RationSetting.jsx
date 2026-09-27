@@ -102,7 +102,7 @@ export default function RationSetting() {
 
           {todayRation ? (
             <span className="bg-yellow-100 text-yellow-800 px-4 py-2 rounded text-sm">
-              Today's ration already exists.
+              Today's demand already exists.
               Edit only.
             </span>
           ) : (

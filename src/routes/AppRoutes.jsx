@@ -93,6 +93,7 @@ export default function AppRoutes() {
               <RoleRoute
                 allowedRoles={[
                   "ADMIN",
+                  "FIELD",
                 ]}
               >
                 <Reports />
@@ -125,6 +126,7 @@ export default function AppRoutes() {
               <RoleRoute
                 allowedRoles={[
                   "ADMIN",
+                  "FIELD",
                 ]}
               >
                 <Form4Report />
@@ -139,6 +141,7 @@ export default function AppRoutes() {
               <RoleRoute
                 allowedRoles={[
                   "ADMIN",
+                  "FIELD",
                 ]}
               >
                 <Form12Report />
@@ -154,6 +157,7 @@ export default function AppRoutes() {
               <RoleRoute
                 allowedRoles={[
                   "ADMIN",
+                  "FIELD",
                 ]}
               >
                 <Form13Report />
@@ -169,6 +173,7 @@ export default function AppRoutes() {
               <RoleRoute
                 allowedRoles={[
                   "ADMIN",
+                  "FIELD",
                 ]}
               >
                 <Form10Report />
@@ -184,6 +189,7 @@ export default function AppRoutes() {
               <RoleRoute
                 allowedRoles={[
                   "ADMIN",
+                  "FIELD",
                 ]}
               >
                 <Form7Report />

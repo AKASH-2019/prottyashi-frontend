@@ -8,8 +8,7 @@ export default function AdminDashboard() {
 
   const [data, setData] = useState(null);
 
-  const [loading, setLoading] =
-    useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
 
@@ -31,6 +30,7 @@ export default function AdminDashboard() {
         setLoading(false);
 
       }
+
     };
 
     loadDashboard();
@@ -38,100 +38,126 @@ export default function AdminDashboard() {
   }, []);
 
   if (loading) {
+
     return (
       <MainLayout>
         <p>Loading...</p>
       </MainLayout>
     );
+
   }
 
   return (
+
     <MainLayout>
 
       <h1 className="text-3xl font-bold mb-6">
-        Dashboard
+        Admin Dashboard
       </h1>
 
-      <div className="grid grid-cols-3 gap-4">
+      {/* Summary Cards */}
+
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
 
         <div className="bg-white p-5 rounded shadow">
-          <h3>Bun</h3>
+          <h3 className="font-semibold">
+            Total Students
+          </h3>
 
-          <p>
-            Demand:
-            {data?.bun_demand}
-          </p>
-
-          <p>
-            Delivered:
-            {data?.bun_delivered}
-          </p>
-
-          <p>
-            Shortfall:
-            {data?.bun_shortfall}
+          <p className="text-2xl font-bold">
+            {data?.total_students}
           </p>
         </div>
 
         <div className="bg-white p-5 rounded shadow">
-          <h3>Egg</h3>
+          <h3 className="font-semibold">
+            Total Delivered
+          </h3>
 
-          <p>
-            Demand:
-            {data?.egg_demand}
-          </p>
-
-          <p>
-            Delivered:
-            {data?.egg_delivered}
-          </p>
-
-          <p>
-            Shortfall:
-            {data?.egg_shortfall}
+          <p className="text-2xl font-bold text-green-600">
+            {data?.total_food_delivered}
           </p>
         </div>
 
         <div className="bg-white p-5 rounded shadow">
-          <h3>Banana</h3>
+          <h3 className="font-semibold">
+            Total Shortfall
+          </h3>
 
-          <p>
-            Demand:
-            {data?.banana_demand}
+          <p className="text-2xl font-bold text-red-600">
+            {data?.total_shortfall}
           </p>
+        </div>
 
-          <p>
-            Delivered:
-            {data?.banana_delivered}
+        <div className="bg-white p-5 rounded shadow">
+          <h3 className="font-semibold">
+            Total Bun
+          </h3>
+
+          <p className="text-2xl font-bold">
+            {data?.total_bun}
           </p>
+        </div>
 
-          <p>
-            Shortfall:
-            {data?.banana_shortfall}
+        <div className="bg-white p-5 rounded shadow">
+          <h3 className="font-semibold">
+            Total Egg
+          </h3>
+
+          <p className="text-2xl font-bold">
+            {data?.total_egg}
+          </p>
+        </div>
+
+        <div className="bg-white p-5 rounded shadow">
+          <h3 className="font-semibold">
+            Total Banana
+          </h3>
+
+          <p className="text-2xl font-bold">
+            {data?.total_banana}
           </p>
         </div>
 
       </div>
 
-      <div className="mt-8 bg-white p-5 rounded shadow">
+      {/* School Wise Report */}
+
+      <div className="mt-8 bg-white p-5 rounded shadow overflow-x-auto">
 
         <h2 className="text-xl font-semibold mb-4">
-          Schools With Shortfall
+          School Wise Delivery
         </h2>
 
-        <table className="w-full border">
+        <table className="w-full border-collapse border">
 
           <thead>
 
-            <tr>
+            <tr className="bg-gray-100">
 
               <th className="border p-2">
                 School
               </th>
 
-              {/* <th className="border p-2">
-                Item
-              </th> */}
+              <th className="border p-2">
+                Students
+              </th>
+
+              <th className="border p-2">
+                Bun
+              </th>
+
+              <th className="border p-2">
+                Egg
+              </th>
+
+              <th className="border p-2">
+                Banana
+              </th>
+
+              <th className="border p-2">
+                Delivered
+              </th>
 
               <th className="border p-2">
                 Shortfall
@@ -142,31 +168,123 @@ export default function AdminDashboard() {
           </thead>
 
           <tbody>
-            {data?.shortfall_schools?.map((school) => (
-              <tr key={school.school_id}>
+
+            {data?.schools?.map((school) => (
+
+              <tr
+                key={school.school_id}
+              >
+
                 <td className="border p-2">
                   {school.school_name}
                 </td>
 
                 <td className="border p-2 text-center">
-                  {school.bun_demand - school.bun_delivered}
+                  {school.student_count}
                 </td>
 
                 <td className="border p-2 text-center">
-                  {school.egg_demand - school.egg_delivered}
+                  {school.bun_delivered}
                 </td>
 
                 <td className="border p-2 text-center">
-                  {school.banana_demand - school.banana_delivered}
+                  {school.egg_delivered}
                 </td>
+
+                <td className="border p-2 text-center">
+                  {school.banana_delivered}
+                </td>
+
+                <td className="border p-2 text-center font-semibold">
+                  {school.food_delivered}
+                </td>
+
+                <td
+                  className={`border p-2 text-center font-semibold ${
+                    school.shortfall > 0
+                      ? "text-red-600"
+                      : "text-green-600"
+                  }`}
+                >
+                  {school.shortfall}
+                </td>
+
               </tr>
+
             ))}
+
           </tbody>
 
         </table>
 
       </div>
 
+      {/* Shortfall Schools */}
+
+      <div className="mt-8 bg-white p-5 rounded shadow">
+
+        <h2 className="text-xl font-semibold mb-4">
+          Schools With Shortfall
+        </h2>
+
+        {data?.shortfall_schools?.length === 0 ? (
+
+          <p className="text-green-600 font-medium">
+            No shortfall today.
+          </p>
+
+        ) : (
+
+          <table className="w-full border">
+
+            <thead>
+
+              <tr>
+
+                <th className="border p-2">
+                  School
+                </th>
+
+                <th className="border p-2">
+                  Shortfall
+                </th>
+
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              {data.shortfall_schools.map(
+                (school) => (
+
+                  <tr
+                    key={school.school_id}
+                  >
+
+                    <td className="border p-2">
+                      {school.school_name}
+                    </td>
+
+                    <td className="border p-2 text-center text-red-600 font-semibold">
+                      {school.shortfall}
+                    </td>
+
+                  </tr>
+
+                )
+              )}
+
+            </tbody>
+
+          </table>
+
+        )}
+
+      </div>
+
     </MainLayout>
+
   );
+
 }

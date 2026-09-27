@@ -2,58 +2,65 @@ import { Link } from "react-router-dom";
 
 export default function Sidebar() {
     const role = localStorage.getItem("role");
-  return (
-    <div className="w-64 min-h-screen bg-slate-800 text-white">
 
-      <div className="p-5 text-xl font-bold border-b">
-        Feeding System
+  const navButtonClass =
+    "border-2 border-sky-400 text-sky-700 hover:bg-sky-500 hover:text-white hover:border-sky-500 text-center px-4 py-2 rounded-lg font-medium transition";
+
+  return (
+    <div className="w-64 min-h-screen bg-white text-sky-800 flex flex-col border-r-4 border-sky-400">
+
+      <div className="flex flex-col items-center gap-2 p-6 border-b border-sky-100">
+        <div className="w-14 h-14 rounded-full bg-sky-500 flex items-center justify-center">
+          <span className="text-white text-xl font-bold">SF</span>
+        </div>
+        <span className="text-lg font-bold text-sky-700">
+          Feeding System
+        </span>
       </div>
 
-      <nav className="p-4">
+      <nav className="p-4 flex flex-col flex-1 gap-2">
 
-        <ul className="space-y-3">
-            {role === "ADMIN" && (
-            <>
-                <li>
-                <Link to="/schools">
-                    Schools
-                </Link>
-                </li>
+        <Link to="/dashboard" className={navButtonClass}>
+            Dashboard
+        </Link>
 
-                <li>
-                <Link to="/holidays">
-                    Holidays
-                </Link>
-                </li>
+        {role === "ADMIN" && (
+        <>
+            <Link to="/schools" className={navButtonClass}>
+                Schools
+            </Link>
 
-                <li>
-                <Link to="/reports">
-                    Reports
-                </Link>
-                </li>
-                <li>
-                <Link to="/ration-setting">
-                    Demand
-                </Link>
-                </li>
-            </>
-            )}
-            {role === "FIELD" && (
-            <>
-                <li>
-                <Link to="/deliveries">
-                    Deliveries
-                </Link>
-                </li>
-            </>
-            )}
-        </ul>
+            <Link to="/holidays" className={navButtonClass}>
+                Holidays
+            </Link>
+
+            <Link to="/reports" className={navButtonClass}>
+                Reports
+            </Link>
+
+            <Link to="/ration-setting" className={navButtonClass}>
+                Demand
+            </Link>
+        </>
+        )}
+
+        {role === "FIELD" && (
+        <>
+            <Link to="/deliveries" className={navButtonClass}>
+                Deliveries
+            </Link>
+        </>
+        )}
+        <Link to="/reports" className={navButtonClass}>
+            Reports
+        </Link>
+
         <button
             onClick={() => {
                 localStorage.clear();
                 window.location.href = "/";
             }}
-            className="mt-8 bg-red-500 px-4 py-2 rounded"
+            className="mt-auto border-2 border-red-400 text-red-500 hover:bg-red-500 hover:text-white hover:border-red-500 px-4 py-2 rounded-lg font-semibold transition"
             >
             Logout
         </button>
