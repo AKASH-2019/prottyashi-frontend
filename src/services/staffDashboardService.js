@@ -10,6 +10,7 @@ export const getStaffDashboard = async () => {
   const response = await axios.get(`${API_URL}/staff-dashboard/`, {
     headers: getHeaders(),
   });
-  // Extract the results array directly from the DRF paginated response
-  return response.data?.results || []; 
+  // This endpoint returns a plain object (not a paginated DRF response),
+  // so return response.data directly instead of response.data.results.
+  return response.data;
 };
