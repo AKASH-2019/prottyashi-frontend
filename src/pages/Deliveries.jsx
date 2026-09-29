@@ -323,25 +323,57 @@ export default function Deliveries() {
             loadData();
         };
 
+    // return (
+    //     <MainLayout>
+
+    //         <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-50 -m-6 p-6">
+
+    //             <h1 className="text-3xl font-bold mb-6 text-sky-800">
+    //                 Delivery Entry
+    //             </h1>
+
+    //             <div ref={formRef}>
+    //             <DeliveryForm
+    //                 schools={schools}
+    //                 formData={formData}
+    //                 setFormData={setFormData}
+    //                 handleChange={handleChange}
+    //                 handleSubmit={handleSubmit}
+    //                 editingId={editingId}
+    //                 selectedDelivery={selectedDelivery}
+    //             />
+    //             </div>
+
+    //             <DeliveryList
+    //                 deliveries={deliveries}
+    //                 schools={schools}
+    //                 handleEdit={handleEdit}
+    //                 handleDelete={handleDelete}
+    //             />
+
+    //         </div>
+
+    //     </MainLayout>
+    // );
     return (
         <MainLayout>
 
-            <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-50 -m-6 p-6">
+            <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-50 -m-6 p-6 print:m-0 print:p-0 print:bg-white">
 
-                <h1 className="text-3xl font-bold mb-6 text-sky-800">
+                <h1 className="text-3xl font-bold mb-6 text-sky-800 print:hidden">
                     Delivery Entry
                 </h1>
 
-                <div ref={formRef}>
-                <DeliveryForm
-                    schools={schools}
-                    formData={formData}
-                    setFormData={setFormData}
-                    handleChange={handleChange}
-                    handleSubmit={handleSubmit}
-                    editingId={editingId}
-                    selectedDelivery={selectedDelivery}
-                />
+                <div ref={formRef} className="print:hidden">
+                    <DeliveryForm
+                        schools={schools}
+                        formData={formData}
+                        setFormData={setFormData}
+                        handleChange={handleChange}
+                        handleSubmit={handleSubmit}
+                        editingId={editingId}
+                        selectedDelivery={selectedDelivery}
+                    />
                 </div>
 
                 <DeliveryList

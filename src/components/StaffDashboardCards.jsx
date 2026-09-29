@@ -4,6 +4,10 @@ export default function StaffDashboardCards({
   const cards = [
     {
       title: "মোট বিদ্যালয়",
+      value: data.overall_schools,
+    },
+    {
+      title: "মোট ডেলিভারড বিদ্যালয়",
       value: data.total_schools,
     },
     {
